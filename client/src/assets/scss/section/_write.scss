@@ -1,0 +1,78 @@
+.write__wrap {
+    text-align: center;
+
+    .write__header {
+        height: 250px;
+        background-color: #000;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        h3 {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+    }
+
+    .write__form {
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 20px 0;
+            /* 수정: 간격 조절 */
+        }
+
+        div {
+            margin-bottom: 15px;
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            input {
+                width: 350px;
+                /* 수정: 폭을 100%로 설정 */
+                height: 50px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                box-sizing: border-box;
+                margin-bottom: 10px;
+                /* 수정: 간격 조절 */
+            }
+
+            textarea {
+                width: 350px;
+                height: 150px;
+                /* 수정: 높이 조절 */
+                resize: none;
+                padding: 10px;
+                border: 1px solid #ddd;
+            }
+        }
+
+        button {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            width: 350px;
+            height: 50px;
+            /* 수정: 폭을 100%로 설정 */
+            cursor: pointer;
+
+            &:hover {
+                background-color: #2980b9;
+            }
+        }
+    }
+}
