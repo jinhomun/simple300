@@ -25,16 +25,19 @@ const PostList = () => {
             </div>
 
             <div className='list__wrap'>
-                {postList.map((post, key) => (
-                    <div className='list' key={key}>
-                        <span className='cate'>교육</span>
-                        <h3 className='title'>
-                            <Link to={`/detail/${post.postNum}`}>{post.title}</Link>
-                        </h3>
-                        <p className='desc'>{post.content}</p>
-                        <div className='auth'>jjj</div>
-                    </div>
-                ))}
+                {postList.map((post, key) => {
+                    console.log(post)
+                    return (
+                        <div className='list' key={key}>
+                            <span className='cate'>교육</span>
+                            <h3 className='title'>
+                                <Link to={`/detail/${post.postNum}`}>{post.title}</Link>
+                            </h3>
+                            <p className='desc'>{post.content}</p>
+                            <div className='auth'>{post.author.displayName}</div>
+                        </div>
+                    )
+                })}
             </div>
         </>
     )

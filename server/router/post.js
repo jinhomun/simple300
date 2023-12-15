@@ -5,38 +5,52 @@ const multer = require("multer");
 // 스키마 만들기
 const { Post } = require("../model/Post.js");
 const { Counter } = require("../model/Counter.js");
+const { User } = require("../model/User.js");
 
 // 이미지 업로드
 const setUpload = require("../util/upload.js");
 
 // 글 쓰기
 router.post("/write", (req, res) => {
-    let temp = req.body;
+    let temp = {
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image
+    };
 
     Counter.findOne({ name: "counter" })
         .exec()
         .then((counter) => {
-            temp.postNum = counter.postNum;
+            temp.postNum = counter.postNum;     // 번호 추가
 
-            const BlogWrite = new Post(temp);
-            BlogWrite
-                .save()
-                .then(() => {
-                    Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } }).then(() => {
-                        res.status(200).json({ success: true });
-                    })
+            User.findOne({ uid: req.body.uid })
+                .exec()
+                .then((userInfo) => {
+                    temp.author = userInfo._id  // 작가 추가
+
+                    const BlogWrite = new Post(temp);
+                    BlogWrite
+                        .save()
+                        .then(() => {
+                            Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } }).then(() => {
+                                res.status(200).json({ success: true });
+                            })
+                        })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    res.status(400).json({ success: false })
                 })
         })
-        .catch((err) => {
-            console.log(err)
-            res.status(400).json({ success: false })
-        })
+
+
 })
 
 // 글목록
 router.post("/list", (req, res) => {
     Post
         .find()
+        .populate("author")
         .exec()
         .then((result) => {
             res.status(200).json({ success: true, postList: result })
@@ -51,6 +65,7 @@ router.post("/list", (req, res) => {
 router.post("/detail", (req, res) => {
     Post
         .findOne({ postNum: req.body.postNum })
+        .populate("author")
         .exec()
         .then((result) => {
             res.status(200).json({ success: true, post: result });
